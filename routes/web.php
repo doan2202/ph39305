@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MovieController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CheckTokenMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -121,4 +125,28 @@ Route::post('/post/create', [PostController::class, 'store'])->name('post.store'
 Route::get('/post/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
 Route::put('/post/edit/{post}', [PostController::class, 'update'])->name('post.update');
 Route::delete('/post/delete/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+Route::get('/',function(){
+    return view('welcome');
+})->middleware('checkToken');
 
+//middleware yeu cau dang nhap
+Route::middleware(AdminMiddleware::class)->group(function(){
+    Route::get('/movie',[MovieController::class, 'index'])->name('movie.index');
+    Route::get('/movie/search',[MovieController::class, 'search'])->name('movie.search');
+    Route::get('/movie/detail/{movie}',[MovieController::class, 'detail'])->name('movie.detail');
+    Route::get('/movie/create',[MovieController::class, 'create'])->name('movie.create');
+    Route::post('/movie/create',[MovieController::class, 'store'])->name('movie.store');
+    Route::get('/movie/edit/{movie}',[MovieController::class, 'edit'])->name('movie.edit');
+    Route::put('/movie/edit/{movie}',[MovieController::class, 'update'])->name('movie.update');
+    Route::delete('/movie/delete/{movie}', [MovieController::class, 'destroy'])->name('movie.destroy');
+});
+
+
+
+Route::get('/login', [LoginController::class,'login'])->name('login');
+Route::post('/login', [LoginController::class,'postlogin'])->name('postLogin');
+
+Route::get('/logout', [LoginController::class,'logout'])->name('logout');
+
+Route::get('/register', [LoginController::class,'register'])->name('register');
+Route::post('/register', [LoginController::class,'postRegister'])->name('postRegister');

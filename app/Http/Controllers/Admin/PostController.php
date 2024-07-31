@@ -78,8 +78,37 @@ class PostController extends Controller
             return redirect()->route('post.list')->with('message','Add Successfully!');
 
     }
-    public function destroy($post){
-        Post::destroy($post);
+    public function destroy(Post $post){
+        $post->delete();
         return redirect()->route('post.list')->with('message','Delete Successfully!');
     }
+    //hien thi form edit
+    public function edit(Post $post){
+        $categories=Category::all();
+        return view('admin.posts.edit',compact('categories','post'));
+    }
+
+    //luu du lieu vao database
+
+    public function update(Request $request,Post $post){
+        $data=$request->except('image');
+        $old_img=$post->image;
+        //neu 0 cap nhap anh
+        $data['image']=$old_img;
+        //neu cap nhat anh
+        if($request->hasFile('image')){
+            $path_image=$request->file('image')->store('images');
+            $data['image']=$path_image;
+        }
+        $post->update($data);
+
+        //xoa anh cu
+        if(isset($path_image)){
+            if  (file_exists('storage/'. $old_img)){
+                unlink('storage/'. $old_img);
+            }
+        }
+        return redirect()->back()->with('message','Update Successfully!');
+    }
+    
 }

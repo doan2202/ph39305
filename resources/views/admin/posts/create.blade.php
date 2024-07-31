@@ -20,8 +20,9 @@
                 <input type="text" name="title" class="form-control">
               </div>
             <div class="mb-3">
-                <label for="" class="form-label">Image </label>
-                <input type="file" name="image" class="form-control">
+                <label for="" class="form-label">Image </label><br>
+                <input type="file" name="image" id="fileImage"><br>
+                <img src="" id="img" width="60px" alt="">
               </div>
             <div class="mb-3">
                 <label for="" class="form-label">Description </label>
@@ -52,5 +53,13 @@
         </form>
 
     </div>
+    <script>
+        var fileImage=document.querySelector("#fileImage")
+        var img=document.querySelector("#img")
+        fileImage.addEventListener('change',function(e){
+            e.preventDefault()
+            img.src= URL.createObjectURL(this.files[0])
+        })
+    </script>
   </body>
 </html>
