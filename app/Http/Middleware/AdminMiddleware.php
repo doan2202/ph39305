@@ -18,15 +18,12 @@ class AdminMiddleware
     {
         //kiem tra xem nguoi dung da dang nhap chua
         if (Auth::check() ){
-            if (Auth::user()->role=='admin'){
+
                  return $next($request);
-            }else{
-                return redirect()->route('login')->with('error','Your account is not allow!');
-
-            }
-
+        }else{
+                return redirect()->route('login');
         }
-        return redirect()->route('login');
+
 
     }
 }

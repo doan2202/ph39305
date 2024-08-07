@@ -20,6 +20,7 @@ class MovieSeeder extends Seeder
                 'title' => $faker->name,
                 'poster' => '',
                 'intro' => $faker->name,
+                'view' => rand(100,1000),
                 'release_date' => $faker->date('Y-m-d'),
                 'genre_id' => $faker->numberBetween(1, 4),
             ]);

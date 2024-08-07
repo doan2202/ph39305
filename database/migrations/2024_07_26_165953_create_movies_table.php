@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title',225);
             $table->string('poster',225);
             $table->string('intro',225);
+            $table->string('view');
             $table->date('release_date');
             $table->unsignedBigInteger('genre_id');
             $table->timestamps();
